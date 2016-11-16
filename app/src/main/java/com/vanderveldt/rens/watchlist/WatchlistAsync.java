@@ -3,6 +3,7 @@ package com.vanderveldt.rens.watchlist;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -19,14 +20,16 @@ import java.util.HashMap;
 
 class WatchlistAsync extends AsyncTask {
 
+    // Extract context.
     private static Context context;
     // Initiate list of search results:
     private ArrayList<HashMap<String, String>> searchList = new ArrayList<HashMap<String, String>>();
+    // extract listview.
+    private ListView lv;
 
     private String searchquery;
-    WatchlistAsync(Context c, String query) {
+    WatchlistAsync(Context c, String searchquery, ListView lv) {
         context = c;
-        String searchquery = query;
     }
 
     @Override
@@ -84,8 +87,11 @@ class WatchlistAsync extends AsyncTask {
 
     @Override
     protected void onPostExecute(Void result) {
+
+        // After JSON data is processed create an adapter for listview generation.
         ListAdapter adapter = new SimpleAdapter(context,searchList,R.layout.row_layout, new String[]{"title","year","link","id"},
                 new int[]{R.id.title,R.id.year, R.id.link, R.id.id});
+        lv.setAdapter(adapter);
 
     }
 }
