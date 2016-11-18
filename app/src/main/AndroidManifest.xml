@@ -17,7 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Watchlist"></activity>
+        <activity android:name=".Resultlistview" />
+        <activity android:name=".Watchlistview" />
+        <activity android:name=".Watchlistdetail"></activity>
     </application>
 
 </manifest>

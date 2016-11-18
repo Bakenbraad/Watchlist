@@ -34,7 +34,7 @@ public class Watchlistdetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resultlistview);
+        setContentView(R.layout.activity_watchlistdetail);
         Bundle extras = getIntent().getExtras();
 
         prefs = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -49,26 +49,26 @@ public class Watchlistdetail extends AppCompatActivity {
         String actors = extras.getString("actors");
 
         // Cast all variables to view
-        TextView titleTV = (TextView) findViewById(R.id.title);
+        TextView titleTV = (TextView) findViewById(R.id.title2);
         titleTV.setText(title);
 
-        TextView yearTV = (TextView) findViewById(R.id.year);
+        TextView yearTV = (TextView) findViewById(R.id.year2);
         yearTV.setText("Released: " + year);
 
-        TextView directorTV = (TextView) findViewById(R.id.director);
+        TextView directorTV = (TextView) findViewById(R.id.director2);
         directorTV.setText("Directed by: " + director);
 
-        TextView runtimeTV = (TextView) findViewById(R.id.runtime);
+        TextView runtimeTV = (TextView) findViewById(R.id.runtime2);
         runtimeTV.setText(runtime);
 
-        TextView plotTV = (TextView) findViewById(R.id.plot);
+        TextView plotTV = (TextView) findViewById(R.id.plot2);
         plotTV.setMovementMethod(new ScrollingMovementMethod());
         plotTV.setText(plot);
 
-        TextView actorsTV = (TextView) findViewById(R.id.actors);
+        TextView actorsTV = (TextView) findViewById(R.id.actors2);
         actorsTV.setText("Starring: " + actors);
 
-        final ImageView iv = (ImageView) findViewById(R.id.poster);
+        final ImageView iv = (ImageView) findViewById(R.id.poster2);
         new DownLoadImageTask(iv).execute(link);
     }
     public void removeFromWatchlist(View view) {
@@ -77,7 +77,7 @@ public class Watchlistdetail extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         Set<String> myStrings = prefs.getStringSet("myStrings", new HashSet<String>());
 
-        // Add new title
+        // Remove current title
         myStrings.remove(title);
         editor.putStringSet("myStrings", myStrings);
         editor.commit();
@@ -86,11 +86,11 @@ public class Watchlistdetail extends AppCompatActivity {
         Toast.makeText(this, "Removed", Toast.LENGTH_LONG).show();
     }
 
-    // Back to search
-    public void backToSearch(View view) {
+    // Back to watchlist
+    public void backToWatchlist(View view) {
+        Intent goToWatchlist = new Intent(Watchlistdetail.this, MainActivity.class);
+        startActivity(goToWatchlist);
         finish();
-        Intent goToStart = new Intent(Resultlistview.this, MainActivity.class);
-        startActivity(goToStart);
     }
 
     // Gets image into view

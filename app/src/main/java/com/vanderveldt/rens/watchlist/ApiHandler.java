@@ -1,47 +1,48 @@
 package com.vanderveldt.rens.watchlist;
 
+import android.util.Log;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import org.apache.commons.io.IOUtils;
 
-/**
- * Created by Rens on 15-11-2016.
- */
+// From https://www.tutorialspoint.com/android/android_json_parser.htm
 
 public class ApiHandler {
 
-    private String parameter = "";
+    public String query;
 
-    public String querySet(String searchparameter){
-        parameter = searchparameter;
-        return parameter;
+    // Reads input.
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
     }
 
-    protected JSONObject Searchquery(){
-        String querystring = "http://omdbapi.com/?&s=";
-        String movietype = "&type=movie";
-
-        parameter = parameter.replace(" ","+");
-
-        // Create the final adress
-        String finalquery;
-        finalquery = querystring + parameter + movietype;
-
-        // Convert to URL.
-        URL url;
+    public static JSONObject readJsonFromUrl(String query) throws IOException, JSONException {
+        InputStream is = new URL("http://www.omdbapi.com/?t=" + query + "&type=movie&plot=full").openStream();
         try {
-            url = new URL(finalquery);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
         }
-
-        // Get JSON object from adress
-        return new JSONObject(IOUtils.toString(url, Charset.forName("UTF-8")));
     }
 }

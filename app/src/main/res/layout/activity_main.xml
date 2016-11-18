@@ -11,15 +11,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.vanderveldt.rens.watchlist.MainActivity">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:text="@string/watchlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/button2"
+        android:onClick="goToWatchlist"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/welcome_to_the_watchlist_app_you_can_find_all_your_favorite_movies_below_and_add_them_to_your_watchlist_you_can_view_your_watchlist_with_the_watchlist_button_add_movies_you_would_like_to_see_and_remove_them_when_viewed_when_you_click_a_movie_you_can_see_interesting_details_such_as_plots_posters_actors_and_much_more_enjoy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/searchIcon"
-        android:id="@+id/linearLayout"></LinearLayout>
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="302dp"
@@ -29,31 +43,23 @@
         android:hint="@string/movie_title"
         android:ems="13"
         android:id="@+id/querytext"
-        android:gravity="top|left"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:gravity="center"
+        android:background="@drawable/shape"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/searchIcon" />
 
     <ImageButton
         android:contentDescription="@string/searchicon"
         android:id="@+id/searchIcon"
         android:onClick="movieSearch"
         android:layout_width="45dp"
-        android:layout_alignRight="@+id/querytext"
         android:layout_height="48dp"
         android:src="@drawable/searchicon"
         android:scaleType="centerCrop"
         android:adjustViewBounds="@+id/querytext"
-        android:layout_alignParentTop="true" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linearLayout"
-        android:id="@+id/listview"/>
-
+        android:layout_below="@+id/textView3"
+        android:layout_alignRight="@+id/querytext"
+        android:layout_alignEnd="@+id/querytext" />
 
 </RelativeLayout>

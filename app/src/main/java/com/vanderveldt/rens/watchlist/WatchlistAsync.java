@@ -1,16 +1,16 @@
 package com.vanderveldt.rens.watchlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,80 +18,83 @@ import java.util.HashMap;
  * Created by Rens on 15-11-2016.
  */
 
-class WatchlistAsync extends AsyncTask {
+class WatchlistAsync extends AsyncTask<Object, Object, Void> {
 
-    // Extract context.
-    private static Context context;
+    // Name tag.
+    private String TAG = MainActivity.class.getSimpleName();
     // Initiate list of search results:
-    private ArrayList<HashMap<String, String>> searchList = new ArrayList<HashMap<String, String>>();
-    // extract listview.
-    private ListView lv;
+    private ArrayList<HashMap<String, String>> searchList;
+    // Extract listview.
+    private ListView listView;
+    // Create query string
+    private String query;
+    // Create context;
+    private static Context context;
+    // Store method:
+    private static int methodcall;
 
-    private String searchquery;
-    WatchlistAsync(Context c, String searchquery, ListView lv) {
+    String title, year, runtime, director, actors, plot, link;
+
+    WatchlistAsync(Context c, String searchquery, int method) {
+        query = searchquery;
         context = c;
+        methodcall = method;
     }
 
     @Override
     protected void onPreExecute() {
-        Toast.makeText(context, "Searching", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Searching", Toast.LENGTH_SHORT).show();
         super.onPreExecute();
     }
 
     @Override
-    protected Object doInBackground(Object[] params) {
-
-        // Get json from apihandler.
-        ApiHandler apihandler = new ApiHandler();
-        apihandler.querySet(searchquery);
-        JSONObject results = apihandler.Searchquery();
-
-        // Extract json variables
-        JSONArray data;
+    protected Void doInBackground(Object... arg0) {
         try {
-            data = results.getJSONArray("Search");
+            JSONObject searchResult = ApiHandler.readJsonFromUrl(query);
+            title = searchResult.getString("Title");
+            year = searchResult.getString("Year");
+            runtime = searchResult.getString("Runtime");
+            director = searchResult.getString("Director");
+            actors = searchResult.getString("Actors");
+            plot = searchResult.getString("Plot");
+            link = searchResult.getString("Poster");
 
-            for(int i = 0; i < data.length(); i++){
-                JSONObject tmp = data.getJSONObject(i);
-
-                // Extract each movie.
-                String title = tmp.getString("Title");
-                String year = tmp.getString("Year");
-                String link = tmp.getString("Poster");
-                String id = tmp.getString("imdbID");
-
-                // Temp storage.
-                HashMap<String, String> movie = new HashMap<>();
-                movie.put("title", title);
-                movie.put("year", year);
-                movie.put("link", link);
-                movie.put("id", id);
-
-                // Add to searchList.
-                searchList.add(movie);
-            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
-        catch (final JSONException e) {
-            Toast.makeText(context,"Json parsing error", Toast.LENGTH_LONG).show();
-                }
-
-
-        // TODO: create Adapter with setList fucntion to fill expandable listview.
         return null;
     }
 
     @Override
-    protected void onProgressUpdate(Object[] values) {
+    protected void onProgressUpdate(Object... values) {
         super.onProgressUpdate(values);
     }
 
     @Override
-    protected void onPostExecute(Void result) {
+    protected void onPostExecute(Void values) {
+        super.onPostExecute(values);
+        Intent goToResult;
 
-        // After JSON data is processed create an adapter for listview generation.
-        ListAdapter adapter = new SimpleAdapter(context,searchList,R.layout.row_layout, new String[]{"title","year","link","id"},
-                new int[]{R.id.title,R.id.year, R.id.link, R.id.id});
-        lv.setAdapter(adapter);
+        switch (methodcall) {
+            case 1:
+                goToResult = new Intent(context, Resultlistview.class);
+                break;
+            case 0:
+                goToResult = new Intent(context, Watchlistdetail.class);
+                break;
+            default:
+                return;
+        }
 
+        goToResult.putExtra("title", title);
+        goToResult.putExtra("year", year);
+        goToResult.putExtra("runtime", runtime);
+        goToResult.putExtra("link", link);
+        goToResult.putExtra("plot", plot);
+        goToResult.putExtra("director", director);
+        goToResult.putExtra("actors", actors);
+
+        goToResult.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(goToResult);
     }
 }

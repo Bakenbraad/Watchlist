@@ -2,4 +2,8 @@
     <string name="app_name">Watchlist</string>
     <string name="movie_title">Movie Title</string>
     <string name="searchicon">Searchicon</string>
+    <string name="back">Back</string>
+    <string name="results">Results</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="welcome_to_the_watchlist_app_you_can_find_all_your_favorite_movies_below_and_add_them_to_your_watchlist_you_can_view_your_watchlist_with_the_watchlist_button_add_movies_you_would_like_to_see_and_remove_them_when_viewed_when_you_click_a_movie_you_can_see_interesting_details_such_as_plots_posters_actors_and_much_more_enjoy">Welcome to the watchlist app! You can find all your favorite movies below and add them to your watchlist. You can view your watchlist with the watchlist button! Add movies you would like to see and remove them when viewed! When you click a movie you can see interesting details such as plots, posters, actors and much more! Enjoy</string>
 </resources>
