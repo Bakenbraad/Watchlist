@@ -18,7 +18,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
-// From https://www.tutorialspoint.com/android/android_json_parser.htm
+// From http://stackoverflow.com/questions/4308554/simplest-way-to-read-json-from-a-url-in-java
 
 public class ApiHandler {
 

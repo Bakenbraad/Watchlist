@@ -75,11 +75,9 @@ public class Watchlistdetail extends AppCompatActivity {
 
         // Get current list
         SharedPreferences.Editor editor = prefs.edit();
-        Set<String> myStrings = prefs.getStringSet("myStrings", new HashSet<String>());
 
         // Remove current title
-        myStrings.remove(title);
-        editor.putStringSet("myStrings", myStrings);
+        editor.remove(title);
         editor.commit();
 
         // Let user know you added their movie
@@ -88,7 +86,13 @@ public class Watchlistdetail extends AppCompatActivity {
 
     // Back to watchlist
     public void backToWatchlist(View view) {
-        Intent goToWatchlist = new Intent(Watchlistdetail.this, MainActivity.class);
+
+        Intent goToWatchlist = new Intent(Watchlistdetail.this, Watchlistview.class);
+        startActivity(goToWatchlist);
+        finish();
+    }
+    public void onBackPressed(){
+        Intent goToWatchlist = new Intent(Watchlistdetail.this, Watchlistview.class);
         startActivity(goToWatchlist);
         finish();
     }

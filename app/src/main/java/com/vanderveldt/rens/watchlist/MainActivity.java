@@ -2,8 +2,10 @@ package com.vanderveldt.rens.watchlist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -44,13 +46,20 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter a title.", Toast.LENGTH_LONG).show();
         }
         else {
-            new WatchlistAsync(this, query, 1).execute();
-            finish();
+            query = query.replace(" ", "+");
+            new WatchlistAsync(this, query, 0).execute();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     public void goToWatchlist(View view) {
         Intent goToWatchlist = new Intent(this, Watchlistview.class);
         startActivity(goToWatchlist);
+        finish();
     }
 }

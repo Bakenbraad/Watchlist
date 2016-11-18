@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".Resultlistview" />
         <activity android:name=".Watchlistview" />
-        <activity android:name=".Watchlistdetail"></activity>
+        <activity android:name=".Watchlistdetail" />
+        <activity android:name=".Noresults"></activity>
     </application>
 
 </manifest>

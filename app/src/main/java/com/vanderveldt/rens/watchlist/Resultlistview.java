@@ -75,12 +75,10 @@ public class Resultlistview extends AppCompatActivity {
 
         // Get current list
         SharedPreferences.Editor editor = prefs.edit();
-        Set<String> myStrings = prefs.getStringSet("myStrings", new HashSet<String>());
 
         // Add new title
-        myStrings.add(title);
-        editor.putStringSet("myStrings", myStrings);
-        editor.commit();
+        editor.putString(title, title);
+        editor.apply();
 
         // Let user know you added their movie
         Toast.makeText(this, "Added to watchlist", Toast.LENGTH_SHORT).show();
@@ -88,6 +86,11 @@ public class Resultlistview extends AppCompatActivity {
 
     // Back to search
     public void backToSearch(View view) {
+        finish();
+        Intent goToStart = new Intent(Resultlistview.this, MainActivity.class);
+        startActivity(goToStart);
+    }
+    public void onBackPressed(){
         finish();
         Intent goToStart = new Intent(Resultlistview.this, MainActivity.class);
         startActivity(goToStart);
